@@ -1,55 +1,43 @@
-
-
-
 class HTMLNode:
     def __init__(
-            self, 
-            tag: str | None = None, 
-            value: str | None = None, 
-            children: list[object] | None = None, 
-            props: dict[str, str] | None = None
-        ):
-            self.tag = tag
-            self.value = value
-            self.children = children
-            self.props = props
+        self,
+        tag: str | None = None,
+        value: str | None = None,
+        children: list["HTMLNode"] | None = None,
+        props: dict[str, str] | None = None,
+    ) -> None:
+        self.tag = tag
+        self.value = value
+        self.children = children
+        self.props = props
 
+    def to_html(self) -> str:
+        raise NotImplementedError("to_html method not implemented")
 
-    def to_html(self):
-         raise NotImplemented
-
-
-
-    def props_to_html(self):
-         if self.props is None or self.props == {}:
+    def props_to_html(self) -> str:
+        if self.props is None:
             return ""
-         result = ""
-         for key, value in self.props.items():
-              result += f' "{key}"="{value}"'
-         return result
+        props_html = ""
+        for prop in self.props:
+            props_html += f' {prop}="{self.props[prop]}"'
+        return props_html
+
+    def __repr__(self) -> str:
+        return f"HTMLNode({self.tag}, {self.value}, children: {self.children}, {self.props})"
 
 
-    def __eq__(self, other):
-            if not isinstance(other, HTMLNode):
-                return NotImplemented
-            return (
-                self.tag,
-                self.value,
-                self.children,
-                self.props
-            ) == (
-                other.tag,
-                other.value,
-                other.children,
-                other.props
-            )
+class LeafNode(HTMLNode):
+    def __init__(
+        self, tag: str | None, value: str, props: dict[str, str] | None = None
+    ) -> None:
+        super().__init__(tag, value, None, props)
 
+    def to_html(self) -> str:
+        if self.value is None:
+            raise ValueError("invalid HTML: no value")
+        if self.tag is None:
+            return self.value
+        return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
 
-    def __repr__(self):
-         return (
-               f"HTMLNode("
-               f"tag={self.tag!r}, "
-               f"value={self.value!r}, "
-               f"children={self.children!r}, "
-               f"props={self.props!r})"
-        )
+    def __repr__(self) -> str:
+        return f"LeafNode({self.tag}, {self.value}, {self.props})"
