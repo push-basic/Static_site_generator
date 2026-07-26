@@ -1,6 +1,5 @@
 from enum import Enum
-
-
+from htmlnode import LeafNode
 
 class TextType(Enum):
     TEXT = "text"
@@ -31,6 +30,8 @@ class TextNode:
             other.url,
         )
 
-
     def __repr__(self):
         return f"TextNode({self.text!r}, {self.text_type.value!r}, {self.url!r})"
+
+    def text_node_to_html_node(text_node: TextNode) -> LeafNode:
+        pass
