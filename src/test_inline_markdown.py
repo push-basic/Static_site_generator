@@ -1,7 +1,7 @@
 import unittest
-from functions import split_nodes_delimiter, split_nodes_image, split_nodes_link
 from textnode import TextNode, TextType
-from functions import extract_markdown_images, extract_markdown_links, text_to_textnodes
+from inline_markdown import split_nodes_delimiter, split_nodes_image, split_nodes_link
+from inline_markdown import extract_markdown_images, extract_markdown_links, text_to_textnodes
 
 
 class TestInlineMarkdown(unittest.TestCase):
