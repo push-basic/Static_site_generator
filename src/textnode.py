@@ -11,7 +11,7 @@ class TextType(Enum):
 
 
 class TextNode:
-    def __init__(self, text, text_type: TextType = TextType, url: None = None):
+    def __init__(self, text, text_type: TextType.TEXT, url: None = None):
         self.text = text
         self.text_type = text_type
         self.url = url
@@ -33,5 +33,22 @@ class TextNode:
     def __repr__(self):
         return f"TextNode({self.text!r}, {self.text_type.value!r}, {self.url!r})"
 
-    def text_node_to_html_node(text_node: TextNode) -> LeafNode:
-        pass
+
+def text_node_to_html_node(text_node: TextNode) -> LeafNode:
+    if text_node.text_type == TextType.TEXT:
+        return LeafNode(None, text_node.text)
+    if text_node.text_type == TextType.BOLD:
+        return LeafNode("b", text_node.text)
+    if text_node.text_type == TextType.ITALIC:
+        return LeafNode("i", text_node.text)
+    if text_node.text_type == TextType.CODE:
+        return LeafNode("code", text_node.text)
+    if text_node.text_type == TextType.LINK:
+        if text_node.url is None:
+            raise ValueError("invalid URL")
+        return LeafNode("a", text_node.text, {"href": text_node.url})
+    if text_node.text_type == TextType.IMAGE:
+        if text_node.url is None:
+            raise ValueError("invalid URL")
+        return LeafNode("img", "", {"src": text_node.url, "alt": text_node.text})
+    raise ValueError(f"invalid text type: {text_node.text_type}")
