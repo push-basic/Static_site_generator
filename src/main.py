@@ -1,15 +1,11 @@
-from textnode import TextNode, TextType
-from htmlnode import HTMLNode
+from copy_static_to_public import clear_public_directory, copy_static_to_public
+from config import public, static
 
 
 
 def main():
-    t = TextNode("teext", TextType.BOLD, None)
-    h = HTMLNode(None, None, None, None)
-    print(h)
-    print(t)
-
-
+    clear_public_directory(public)
+    copy_static_to_public(static, public)
 
 
 
