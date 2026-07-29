@@ -5,6 +5,7 @@ from block_markdown import (
     block_to_block_type,
     markdown_to_blocks,
     markdown_to_html_node,
+    extract_title
 )
 
 
@@ -65,6 +66,18 @@ This is the same paragraph on a new line
         self.assertEqual(block_to_block_type(block), BlockType.OLIST)
         block = "paragraph"
         self.assertEqual(block_to_block_type(block), BlockType.PARAGRAPH)
+
+    def test_extract_tile(self):
+        node = extract_title("## this is a markdown heading")
+        node2 = extract_title("# this is a markdown heading")
+        self.assertNotEqual(node, node2)
+
+
+    def test_extract_tile(self):
+            node = extract_title("# this is a markdown heading")
+            node2 = extract_title("# this is a markdown heading")
+            self.assertEqual(node, node2)
+
 
     def test_paragraph(self):
         md = """

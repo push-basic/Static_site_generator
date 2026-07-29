@@ -1,2 +1,5 @@
 public = "public"
 static = "static"
+src_path = "content/index.md"
+temp_path = "template.html"
+dst_path = "public/index.html"

@@ -1,4 +1,5 @@
 from enum import Enum
+import re
 
 from htmlnode import HTMLNode, ParentNode
 from inline_markdown import text_to_textnodes
@@ -24,6 +25,11 @@ def markdown_to_blocks(markdown: str) -> list[str]:
         filtered_blocks.append(block)
     return filtered_blocks
 
+def extract_title(markdown: str):
+    match = re.search(r"^# (.+)$", markdown, re.MULTILINE)
+    if not match:
+        raise Exception("no markdown heading found")
+    return match.group(1)
 
 def block_to_block_type(block: str) -> BlockType:
     lines = block.split("\n")
